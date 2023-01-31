@@ -17,7 +17,13 @@ export function generateCells(level, boardSize, setCells) {
 }
 
 export function saveScore() {
-  //TODO save score on backend
-  //TODO when saved, show statistics 
-  console.log('save score')
+  fetch('http://localhost:5000/data', {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 }

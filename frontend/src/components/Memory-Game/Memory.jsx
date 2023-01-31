@@ -8,7 +8,7 @@ import { faSquare as filledSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Memory = () => {
-  const [displayPanel, setDisplayPanel] = useState('start-game')
+  const [displayPanel, setDisplayPanel] = useState('game-over') //STARTING PANEL (start-game / game-panel / game-over)
 
   const [level, setLevel] = useState(1)
   const [lives, setLives] = useState(3)
@@ -26,14 +26,11 @@ const Memory = () => {
   useEffect(() => {
     if (cells.length === 0) {
       generateCells(level, boardSize, setCells)
-      console.log('generate new')
     }
-    console.log('failed to generate new')
   }, [level, boardSize, cells, setCells, lives])
 
   // LEVEL UP
   const changeLevel = useCallback(() => {
-    console.log('change level')
     setTimeout(() => {
       setCells([])
       setRightClick(0)
@@ -45,7 +42,6 @@ const Memory = () => {
 
   //RESET GAME
   function resetGame() {
-    console.log('reset game')
     setLevel(1)
     setLives(3)
     setCells([])
@@ -65,7 +61,6 @@ const Memory = () => {
         setRightClick(0)
         setLives(prev => prev -= 1)
         setCells([])
-        console.log('here')
       }, 1000)
     }
   }, [wrongClick, setLives, setAllowClicks, lives])
