@@ -7,9 +7,7 @@ const PORT = 5000
 app.use(cors({ origin: "http://localhost:3000", }))
 app.use(express.json())
 
-const scores = []
-
-const dane = {
+const data = {
   1: 1,
   2: 0,
   3: 0,
@@ -36,14 +34,15 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getstats', (req, res) => {
-  res.json(dane)
+  res.json(data)
 })
 
-app.post('/data', (req, res) => {
+app.post('/save-score', (req, res) => {
   const { score } = req.body
-  scores.push(score)
-  console.log(scores)
-  res.json('saved')
+  const newData = data
+  newData[score] += 1
+  //TODO SAVE NEW SCORE TABLE TO DB
+  res.json(newData)
 });
 
 // Listening to the port

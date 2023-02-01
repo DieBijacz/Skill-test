@@ -11,7 +11,7 @@ import Chart from './Chart'
 const Memory = () => {
   const [displayPanel, setDisplayPanel] = useState('game-over') //STARTING PANEL (start-game / game-panel / game-over)
 
-  const [level, setLevel] = useState(1)
+  const [level, setLevel] = useState(15)
   const [lives, setLives] = useState(3)
   const [cells, setCells] = useState([])
   const [boardSize, setBoardSize] = useState(3)

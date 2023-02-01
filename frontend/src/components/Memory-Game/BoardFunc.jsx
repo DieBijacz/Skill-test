@@ -24,7 +24,7 @@ export function saveScore(score) {
   console.log({ score })
   const config = { headers: { 'Content-Type': 'application/json' } }
   axios
-    .post('http://localhost:5000/data', { score: score }, config)
-    .then(res => console.log(res.data, res.status))
+    .post('http://localhost:5000/save-score', { score: score }, config)
+    .then(res => console.log({ 'data from server:': res.data, 'status:': res.status }))
     .catch(error => console.log(error))
 }
