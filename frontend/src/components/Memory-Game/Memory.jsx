@@ -6,6 +6,7 @@ import { BOARD_SIZE_GRID, BORAD_SIZE_IN_PX } from './settings'
 import { faSquare as emptySquare } from '@fortawesome/free-regular-svg-icons'
 import { faSquare as filledSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Chart from './Chart'
 
 const Memory = () => {
   const [displayPanel, setDisplayPanel] = useState('game-over') //STARTING PANEL (start-game / game-panel / game-over)
@@ -117,7 +118,7 @@ const Memory = () => {
             <div className='title'>Level {level}</div>
             <p>Save your score to see how you compare.</p>
             <div className='buttons'>
-              <button onClick={saveScore}>Save score</button>
+              <button onClick={() => saveScore(level)}>Save score</button>
               <button onClick={() => resetGame()}>Try Again</button>
             </div>
           </div>
@@ -127,7 +128,12 @@ const Memory = () => {
       {/* BOTTOM SECTION */}
       <section className="container">
         <div id='statistics' className="card-container">
-          <div className='card'>STATS</div>
+          <div className='card'>
+            <div className="chart-container">
+              <h1>Statistics</h1>
+              <Chart />
+            </div>
+          </div>
           <div className='card'>
             <h1>About the test</h1>
             <p>

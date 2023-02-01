@@ -1,3 +1,6 @@
+import axios from 'axios'
+
+// GENERATE CELLS FOR MEMORY GAME
 export function generateCells(level, boardSize, setCells) {
   const cells = []
 
@@ -16,14 +19,12 @@ export function generateCells(level, boardSize, setCells) {
   setCells(cells.sort(() => (Math.random() > .5) ? 1 : -1))
 }
 
-export function saveScore() {
-  fetch('http://localhost:5000/data', {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+// POST SCORE TO DB
+export function saveScore(score) {
+  console.log({ score })
+  const config = { headers: { 'Content-Type': 'application/json' } }
+  axios
+    .post('http://localhost:5000/data', { score: score }, config)
+    .then(res => console.log(res.data, res.status))
+    .catch(error => console.log(error))
 }
