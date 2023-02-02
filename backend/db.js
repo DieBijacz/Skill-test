@@ -1,38 +1,40 @@
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import * as dotenv from 'dotenv'
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDLwMpTCoED8UspN5o4Jrq6plTjtD7Cr0E",
-//   authDomain: "skill-test-91dd5.firebaseapp.com",
-//   projectId: "skill-test-91dd5",
-//   storageBucket: "skill-test-91dd5.appspot.com",
-//   messagingSenderId: "624480766085",
-//   appId: "1:624480766085:web:a36dd231030af23901c1ec",
-//   measurementId: "G-YPFG5L52JR"
-// };
+dotenv.config()
 
-// // Initialize Firebase
-// const db = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(db);
+const firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
+};
 
-const dane = {
-  1: 1,
-  2: 0,
-  3: 0,
-  4: 0,
-  5: 1,
-  6: 4,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 10,
-  11: 20,
-  12: 20,
-  13: 23,
-  14: 25,
-  15: 18,
-  16: 10,
-  17: 8,
-  18: 0,
-  19: 0,
+// Initialize Firebase
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+export async function saveScore(game, score) {
+  try {
+    const docRef = await addDoc(collection(db, `${game}`), { score });
+
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+export async function getDataForGame(game) {
+  const querySnapshot = await getDocs(collection(db, 'games'));
+  querySnapshot.forEach((doc) => {
+    if (doc.id === `${game}`) {
+      const data = doc.data()
+      console.log(Object.keys(data), Object.values(data), data)
+    }
+  });
 }
