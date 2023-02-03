@@ -42,7 +42,7 @@ const Memory = () => {
   }, [level, setLevel])
 
   //RESET GAME
-  function resetGame() {
+  const resetGame = () => {
     setLevel(1)
     setLives(3)
     setCells([])
