@@ -180,6 +180,21 @@ p {
   }
 }
 
+#reaction-time {
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon {
+  font-size: 3rem;
+  color: $light-blue;
+  margin: 1rem;
+}
+
+.big-icon {
+  font-size: 8rem;
+}
+
 .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -197,12 +212,6 @@ p {
       margin-bottom: auto;
       margin-top: .5rem;
     }
-  }
-
-  .icon {
-    font-size: 3rem;
-    color: $light-blue;
-    margin: 1rem;
   }
 
   .squares-icon {

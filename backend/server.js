@@ -9,28 +9,6 @@ const PORT = 5000
 app.use(cors({ origin: "http://localhost:3000", }))
 app.use(express.json())
 
-// const data = {
-//   1: 1,
-//   2: 0,
-//   3: 0,
-//   4: 0,
-//   5: 1,
-//   6: 4,
-//   7: 0,
-//   8: 0,
-//   9: 0,
-//   10: 10,
-//   11: 20,
-//   12: 20,
-//   13: 23,
-//   14: 25,
-//   15: 18,
-//   16: 10,
-//   17: 8,
-//   18: 0,
-//   19: 1,
-// }
-
 app.get('/', (req, res) => {
   res.send('API is running...')
 })
@@ -60,8 +38,6 @@ app.post('/save-score', (req, res) => {
 
   // GET SCORE FROM CLIENT
   const { score } = req.body
-
-  let data
 
   // GET DATA FROM DB
   getDocs(collection(db, collectionName)).then(snapshot => {

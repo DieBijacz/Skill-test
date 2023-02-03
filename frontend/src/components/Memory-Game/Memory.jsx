@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Chart from './Chart'
 
 const Memory = () => {
-  const [displayPanel, setDisplayPanel] = useState('game-over') //STARTING PANEL (start-game / game-panel / game-over)
+  const [displayPanel, setDisplayPanel] = useState('start-game') //STARTING PANEL (start-game / game-panel / game-over)
 
   const [level, setLevel] = useState(15)
   const [lives, setLives] = useState(3)

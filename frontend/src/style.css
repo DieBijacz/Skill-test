@@ -225,6 +225,24 @@ p {
           animation: .5s wrong linear;
 }
 
+#reaction-time {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.icon {
+  font-size: 3rem;
+  color: #6faee2;
+  margin: 1rem;
+}
+
+.big-icon {
+  font-size: 8rem;
+}
+
 .card-container {
   display: -ms-grid;
   display: grid;
@@ -247,12 +265,6 @@ p {
 .card-container .card p {
   margin-bottom: auto;
   margin-top: .5rem;
-}
-
-.card-container .icon {
-  font-size: 3rem;
-  color: #6faee2;
-  margin: 1rem;
 }
 
 .card-container .squares-icon {

@@ -35,7 +35,7 @@ const Home = () => {
               <p>Remember an increasingly large board of squares.</p>
             </div>
           </Link>
-          <Link to='/memory'>
+          <Link to='/reaction-time'>
             <div className="card link center">
               <FontAwesomeIcon icon={faClock} className='icon' />
               <span className='title'>Reaction Time</span>
