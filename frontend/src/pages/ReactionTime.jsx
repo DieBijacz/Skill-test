@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
-import { MAX_DELAY } from '../components/Memory-Game/settings'
 
 const ReactionTime = () => {
   const [color, setColor] = useState('blue')
-  const [startTime, setStartTime] = useState(null)
-  const [endTime, setEndTime] = useState(null)
-  const [timer, setTimer] = useState(null)
+  const [message, setMessage] = useState('')
+  const [time, setTime] = useState(undefined)
+  const [startTime, setStartTime] = useState(undefined)
+
+  const DELAY = Math.floor(Math.random() * 1000) + 1000
 
   const handleStartClick = () => {
-    if (!startTime) {
+    if (color === 'blue') {
       setColor('red')
       setTimeout(() => {
         setColor('green')
-      }, (Math.floor(Math.random() * MAX_DELAY) + 1000))
-    } else {
+        setStartTime(() => Date.now())
+      }, DELAY)
+    }
+    if (color === 'red') {
+      setMessage('Too fast')
+    }
+    if (color === 'green') {
       setColor('blue')
+      const finalTime = Date.now() - startTime
+      setTime(finalTime)
+      setMessage(`Your time: ${finalTime}`)
     }
   }
-
-  // if (!startTime) {
-  //   setStartTime(new Date())
-  // } else {
-  //   setEndTime(new Date())
-  //   setTimer((endTime - startTime) / 1000)
-  //   console.log(endTime - startTime)
-  //   setStartTime(null)
-  // }
-
 
   return (
     <>
@@ -38,6 +37,7 @@ const ReactionTime = () => {
         <div className='title'>Reaction Time Test</div>
         <p>When the red box turns green, click as quickly as you can.</p>
         <p>Click anywhere to start.</p>
+        {message}
       </div>
 
       {/* BOTTOM SECTION */}

@@ -1,6 +1,3 @@
-// REACTION TIME SETTINGS:
-export const MAX_DELAY = 5000
-
 // MEMORY GAME SETTINGS:
 export const TIME_SHOW_ON_START = 1000
 export const BORAD_SIZE_IN_PX = 400
