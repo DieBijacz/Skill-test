@@ -1,43 +1,80 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const ReactionTime = () => {
   const [color, setColor] = useState('blue')
-  const [message, setMessage] = useState('')
   const [time, setTime] = useState(undefined)
   const [startTime, setStartTime] = useState(undefined)
+  const [timeoutId, setTimeoutId] = useState()
 
-  const DELAY = Math.floor(Math.random() * 1000) + 1000
+  const DELAY = Math.floor(Math.random() * 5000) + 1000
+
+  const startTimer = () => {
+    setTimeoutId(setTimeout(() => {
+      if (color !== 'red') {
+        setColor('green');
+        setStartTime(() => Date.now());
+      }
+    }, DELAY))
+  };
 
   const handleStartClick = () => {
     if (color === 'blue') {
-      setColor('red')
-      setTimeout(() => {
-        setColor('green')
-        setStartTime(() => Date.now())
-      }, DELAY)
+      setColor('gold');
+      startTimer()
     }
-    if (color === 'red') {
-      setMessage('Too fast')
+    if (color === 'gold') {
+      clearTimeout(timeoutId)
+      setColor('red');
+      setTime(undefined)
     }
     if (color === 'green') {
-      setColor('blue')
-      const finalTime = Date.now() - startTime
-      setTime(finalTime)
-      setMessage(`Your time: ${finalTime}`)
+      setColor('blue');
+      const finalTime = Date.now() - startTime;
+      setTime(finalTime);
     }
-  }
+    if (color === 'red') {
+      setColor('blue');
+    }
+  };
 
   return (
     <>
       {/* GAME */}
-      <div id='reaction-time' className='background' style={{ backgroundColor: `${color}` }} onClick={handleStartClick}>
-        <FontAwesomeIcon icon={faClock} className='icon big-icon' />
-        <div className='title'>Reaction Time Test</div>
-        <p>When the red box turns green, click as quickly as you can.</p>
-        <p>Click anywhere to start.</p>
-        {message}
+      <div id='reaction-time' className={`background ${color}`} onMouseDown={handleStartClick}>
+
+        {/* BLUE */}
+        {color === 'blue' && <>
+          {time ?
+            <>
+              <FontAwesomeIcon icon={faClock} className='icon big-icon' />
+              <div className="title">{time} ms</div>
+              <p>Click to keep going</p>
+            </>
+            :
+            <>
+              <FontAwesomeIcon icon={faClock} className='icon big-icon' />
+              <div className='title'>Reaction Time Test</div>
+              <p>When the red box turns green, click as quickly as you can.</p>
+              <p>Click anywhere to start.</p>
+            </>}
+        </>}
+
+        {/* GOLD */}
+        {color === 'gold' && <>
+          <div className='title'>Wait for green</div>
+        </>}
+
+        {/* GREEN */}
+        {color === 'green' && <>
+          <div className='title'>Click</div>
+        </>}
+
+        {/* RED */}
+        {color === 'red' && <>
+          <div className='title'>Too fast</div>
+        </>}
       </div>
 
       {/* BOTTOM SECTION */}

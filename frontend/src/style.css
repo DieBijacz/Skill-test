@@ -112,8 +112,23 @@ a {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: #2B87D1;
   color: white;
+}
+
+.background.blue {
+  background-color: #2573C1;
+}
+
+.background.red {
+  background-color: #9c0701;
+}
+
+.background.green {
+  background-color: #0c8002;
+}
+
+.background.gold {
+  background-color: #ecc61b;
 }
 
 button {
@@ -204,11 +219,10 @@ p {
           box-shadow: inset -1px -1px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
           box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  background-color: #2573C1;
 }
 
 #memory-game .board .hidden {
-  background-color: #2573C1;
+  background-color: #6faee2;
   -webkit-animation: .2s flip-back ease-in-out;
           animation: .2s flip-back ease-in-out;
 }

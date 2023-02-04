@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div id="home-page" className='flex-1'>
-      <div className='background'>
+      <div className='background blue'>
         <div className='title'>Test your skills</div>
         <p>Measure your abilities with brain games and cognitive tests.</p>
         <button onClick={handleClick}>Get Started</button>

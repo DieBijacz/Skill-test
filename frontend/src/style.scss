@@ -10,11 +10,12 @@ $custom-white: rgb(250, 250, 250);
 $light-grey: rgb(240, 240, 240);
 $dark-grey: rgb(54, 54, 54);
 $light-blue: #6faee2;
-$blue: #2B87D1;
 $dark-blue: #2573C1;
 $very-dark-blue: #103a64;
 $gold: rgb(236, 198, 27);
 $light-gold: rgb(255, 239, 167);
+$red: #9c0701;
+$green: #0c8002;
 
 #App {
   display: flex;
@@ -26,6 +27,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: $dark-grey;
 }
+
 
 ul {
   display: flex;
@@ -87,9 +89,25 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: $blue;
   color: white;
+
+  &.blue {
+    background-color: $dark-blue;
+  }
+
+  &.red {
+    background-color: $red;
+  }
+
+  &.green {
+    background-color: $green;
+  }
+
+  &.gold {
+    background-color: $gold;
+  }
 }
+
 
 button {
   border: none;
@@ -160,11 +178,10 @@ p {
       cursor: pointer;
       box-shadow: inset -1px -1px 5px rgba(0, 0, 0, 0.1);
       box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-      background-color: $dark-blue;
     }
 
     .hidden {
-      background-color: $dark-blue;
+      background-color: $light-blue;
       animation: .2s flip-back ease-in-out;
     }
 
