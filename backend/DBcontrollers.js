@@ -6,11 +6,10 @@ export const saveScore = async (req, res) => {
   const { game } = req.params
   const collectionName = 'games'
 
-  // GET DATA FROM DB
+  // VALIDATE GAME
+  // as games have diffrent data format
   getDocs(collection(db, collectionName)).then(snapshot => {
     snapshot.docs.forEach(document => {
-      // VALIDATE GAME
-      // as games have diffrent data format
       if (game === 'memory' && document.id === 'memory') saveMemory(document)
       if (game === 'reaction-time' && document.id === 'reaction-time') saveReactionTime(document)
     })
@@ -19,17 +18,17 @@ export const saveScore = async (req, res) => {
     res.status(500).send('Error fetching data from Firestore')
   });
 
+  // MEMORY GAME
   const saveMemory = (document) => {
-    // UPDATE SCORE
     const updatedScore = document.data()[score] + 1
 
-    // UPDATE DATA
     const docRef = doc(db, collectionName, game)
     updateDoc(docRef, { [score]: updatedScore })
       .then(res.json('Memory score saved successfully'))
       .catch(error => console.log('Error:', error))
   }
 
+  // REACTION TIME GAME
   const saveReactionTime = (document) => {
     const dataFromDB = document.data().all
     const updatedData = [...dataFromDB, score]
@@ -42,13 +41,10 @@ export const saveScore = async (req, res) => {
 
 export const getScore = async (req, res) => {
   const { game } = req.params
-  const collectionName = 'games'
-
-  getDocs(collection(db, collectionName)).then(snapshot => {
-    snapshot.docs.forEach(doc => {
-      if (doc.id === game) {
-        res.json(doc.data())
-      }
+  getDocs(collection(db, 'games')).then(snapshot => {
+    snapshot.docs.forEach(document => {
+      if (game === 'memory' && document.id === 'memory') res.json(document.data())
+      if (game === 'reaction-time' && document.id === 'reaction-time') res.json(document.data())
     });
   }).catch(error => {
     console.error(error)

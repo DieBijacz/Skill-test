@@ -6,8 +6,16 @@ import { BOARD_SIZE_GRID, BORAD_SIZE_IN_PX } from './settings'
 import { faSquare as emptySquare } from '@fortawesome/free-regular-svg-icons'
 import { faSquare as filledSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Chart from './Chart'
-import { saveScore } from '../utilities'
+import { getScore, saveScore } from '../utilities'
+import { Line } from 'react-chartjs-2'
+import { Chart as ChartJS, LineElement, CategoryScale, PointElement, LinearScale } from 'chart.js'
+
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  PointElement,
+  LinearScale
+)
 
 const Memory = () => {
   const [displayPanel, setDisplayPanel] = useState('start-game') //STARTING PANEL (start-game / game-panel / game-over)
@@ -21,6 +29,8 @@ const Memory = () => {
   const [rightClick, setRightClick] = useState(0)
 
   const [allowClicks, setAllowClicks] = useState(false)
+
+  const [chartData, setChartData] = useState([])
 
   const cellProps = { setWrongClick, rightClick, setRightClick, wrongClick, allowClicks, setAllowClicks }
 
@@ -74,6 +84,31 @@ const Memory = () => {
       changeLevel()
     }
   }, [rightClick, setAllowClicks, changeLevel, level])
+
+
+  const data = {
+    labels: Object.keys(chartData),
+    datasets: [{
+      data: Object.values(chartData),
+      backgroundColor: 'white',
+      borderColor: 'black',
+      pointBorderColor: 'black',
+      tension: .4
+    }]
+  }
+
+  const chartOptions = {
+    plugins: {
+      legend: true,
+    },
+    scales: {
+      y: { min: 0, max: 30 }
+    }
+  }
+
+  useEffect(() => {
+    getScore('memory', setChartData)
+  }, [])
 
   return (
     <>
@@ -132,7 +167,7 @@ const Memory = () => {
           <div className='card'>
             <div className="chart-container">
               <h1>Statistics</h1>
-              <Chart game={'memory'} />
+              <Line data={data} options={chartOptions} />
             </div>
           </div>
           <div className='card'>

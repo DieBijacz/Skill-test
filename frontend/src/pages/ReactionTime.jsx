@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
-import { saveScore } from '../components/utilities'
+import { getScore, saveScore } from '../components/utilities'
+import { Chart as ChartJS, LineElement, CategoryScale, PointElement, LinearScale } from 'chart.js'
+import { Line } from 'react-chartjs-2'
+
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  PointElement,
+  LinearScale
+)
 
 const ReactionTime = () => {
   const [color, setColor] = useState('blue')
   const [time, setTime] = useState(undefined)
   const [startTime, setStartTime] = useState(undefined)
   const [timeoutId, setTimeoutId] = useState()
+  const [chartData, setChartData] = useState()
+  const [chartReady, setChartReady] = useState(false)
+  const [dsfgsdfgsd, setSDAFSAFSADF] = useState(false)
 
   const DELAY = Math.floor(Math.random() * 5000) + 1000
 
@@ -44,6 +56,38 @@ const ReactionTime = () => {
   useEffect(() => {
     if (time < 500) saveScore('reaction-time', time)
   }, [time])
+
+  const chartOptions = {
+    plugins: {
+      legend: true,
+    },
+    scales: {
+      y: { min: 0, max: 500 }
+    }
+  }
+
+  useEffect(() => {
+    if (chartData) {
+      setSDAFSAFSADF(
+        {
+          labels: Object.keys(chartData.all),
+          datasets: [{
+            data: Object.values(chartData.all),
+            backgroundColor: 'white',
+            borderColor: 'black',
+            pointBorderColor: 'black',
+            tension: .4
+          }]
+        }
+      )
+      setChartReady(true)
+    }
+  }, [chartData])
+
+  useEffect(() => {
+    console.log('fetchin reaction time data')
+    getScore('reaction-time', setChartData)
+  }, [])
 
   return (
     <>
@@ -89,6 +133,7 @@ const ReactionTime = () => {
           <div className='card'>
             <div className="chart-container">
               <h1>Statistics</h1>
+              {chartReady && <Line data={dsfgsdfgsd} options={chartOptions} />}
             </div>
           </div>
           <div className='card'>
