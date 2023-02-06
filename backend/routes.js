@@ -1,9 +1,9 @@
 import express from 'express'
-import { getScore, zapisz } from './DBcontrollers.js'
+import { getScore, saveScore } from './DBcontrollers.js'
 const scoreRouter = express.Router()
 
 scoreRouter
-  .post('/:game', zapisz)
+  .post('/:game', saveScore)
   .get('/:game', getScore)
 
 export default scoreRouter
