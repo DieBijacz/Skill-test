@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Cell from './Cell'
-import { generateCells, saveScore } from './BoardFunc.jsx'
+import { generateCells } from './BoardFunc.jsx'
 import Lives from './Lives'
 import { BOARD_SIZE_GRID, BORAD_SIZE_IN_PX } from './settings'
 import { faSquare as emptySquare } from '@fortawesome/free-regular-svg-icons'
 import { faSquare as filledSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Chart from './Chart'
+import { saveScore } from '../utilities'
 
 const Memory = () => {
   const [displayPanel, setDisplayPanel] = useState('start-game') //STARTING PANEL (start-game / game-panel / game-over)
@@ -118,7 +119,7 @@ const Memory = () => {
             <div className='title'>Level {level}</div>
             <p>Save your score to see how you compare.</p>
             <div className='buttons'>
-              <button onClick={() => saveScore(level)}>Save score</button>
+              <button onClick={() => saveScore('memory', level)}>Save score</button>
               <button onClick={() => resetGame()}>Try Again</button>
             </div>
           </div>
@@ -131,7 +132,7 @@ const Memory = () => {
           <div className='card'>
             <div className="chart-container">
               <h1>Statistics</h1>
-              <Chart />
+              <Chart game={'memory'} />
             </div>
           </div>
           <div className='card'>

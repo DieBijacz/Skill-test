@@ -16,15 +16,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-// SAVE GAME
-export async function saveScore(game, score) {
-  try {
-    const docRef = await addDoc(collection(db, `${game}`), { score });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-}
-
-// FETCH DATA ABOUT GAME
 

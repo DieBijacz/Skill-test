@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, PointElement, LinearScale } from 'chart.js'
 import Loading from '../Loading';
+import { getScore } from '../utilities';
 
 ChartJS.register(
   LineElement,
@@ -10,9 +11,9 @@ ChartJS.register(
   LinearScale
 )
 
-const Chart = () => {
+const Chart = ({ game }) => {
   const [scoresData, setScoresData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const data = {
     labels: Object.keys(scoresData),
@@ -36,10 +37,9 @@ const Chart = () => {
 
   // FETCH DATA
   useEffect(() => {
-    fetch('http://localhost:5000/getstats')
-      .then(res => res.json())
-      .then(data => setScoresData(data))
-  }, [])
+    getScore(game, setScoresData)
+    setLoading(false)
+  }, [game])
 
   return <>
     {loading ? <Loading /> :

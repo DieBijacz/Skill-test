@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
+import { saveScore } from '../components/utilities'
 
 const ReactionTime = () => {
   const [color, setColor] = useState('blue')
@@ -38,6 +39,11 @@ const ReactionTime = () => {
       setColor('blue');
     }
   };
+
+  // SAVE SCORE IN DB
+  useEffect(() => {
+    if (time < 500) saveScore('reaction-time', time)
+  }, [time])
 
   return (
     <>
