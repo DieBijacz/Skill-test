@@ -18,8 +18,6 @@ const ReactionTime = () => {
   const [startTime, setStartTime] = useState(undefined)
   const [timeoutId, setTimeoutId] = useState()
   const [chartData, setChartData] = useState()
-  const [chartReady, setChartReady] = useState(false)
-  const [dsfgsdfgsd, setSDAFSAFSADF] = useState(false)
 
   const DELAY = Math.floor(Math.random() * 5000) + 1000
 
@@ -57,37 +55,37 @@ const ReactionTime = () => {
     if (time < 500) saveScore('reaction-time', time)
   }, [time])
 
+  useEffect(() => {
+    if (chartData) console.log('DATA:', chartData)
+  }, [chartData])
+
+  // GET DATA FOR CHART
+  useEffect(() => {
+    getScore('reaction-time', setChartData)
+  }, [])
+
+  //chart data
+  const data = {
+    labels: Object.keys(chartData ? chartData : []),
+    datasets: [{
+      data: Object.values(chartData ? chartData : []),
+      backgroundColor: 'white',
+      borderColor: '#2573C1',
+      pointBorderColor: '#2573C1',
+      tension: .4,
+    }]
+  }
+
+  // chart options
   const chartOptions = {
     plugins: {
       legend: true,
     },
     scales: {
-      y: { min: 0, max: 500 }
+      y: { min: 0, max: chartData ? Math.max(...Object.values(chartData)) + 10 : 100 },
+      x: { min: 0, max: 475 }
     }
   }
-
-  useEffect(() => {
-    if (chartData) {
-      setSDAFSAFSADF(
-        {
-          labels: Object.keys(chartData.all),
-          datasets: [{
-            data: Object.values(chartData.all),
-            backgroundColor: 'white',
-            borderColor: 'black',
-            pointBorderColor: 'black',
-            tension: .4
-          }]
-        }
-      )
-      setChartReady(true)
-    }
-  }, [chartData])
-
-  useEffect(() => {
-    console.log('fetchin reaction time data')
-    getScore('reaction-time', setChartData)
-  }, [])
 
   return (
     <>
@@ -129,11 +127,11 @@ const ReactionTime = () => {
 
       {/* BOTTOM SECTION */}
       <section className="container">
-        <div id='statistics' className="card-container">
+        <div id='statistics' className="card-container grid-2">
           <div className='card'>
             <div className="chart-container">
               <h1>Statistics</h1>
-              {chartReady && <Line data={dsfgsdfgsd} options={chartOptions} />}
+              <Line data={data} options={chartOptions} />
             </div>
           </div>
           <div className='card'>

@@ -28,7 +28,6 @@ body {
   color: $dark-grey;
 }
 
-
 ul {
   display: flex;
   width: 100%;
@@ -77,6 +76,7 @@ a {
 .squares-icon {
   color: $light-blue;
   display: grid;
+  place-items: center;
   grid-template-columns: repeat(2, 1fr);
   gap: 0px 3px;
   font-size: 1.6rem;
@@ -212,9 +212,12 @@ p {
   font-size: 8rem;
 }
 
-.card-container {
+.grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.card-container {
   gap: 1rem;
   margin: 1rem 0;
 
@@ -223,7 +226,6 @@ p {
     padding: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 100%;
-    transition: .2s ease-out;
 
     p {
       margin-bottom: auto;
@@ -248,9 +250,19 @@ p {
   }
 
   .link {
+    transition: .2s;
+    cursor: pointer;
+
     &:hover {
       transform: translateY(-5px);
     }
+  }
+}
+
+#dashboard {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 6fr;
   }
 }
 

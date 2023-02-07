@@ -43,8 +43,7 @@ export const getScore = async (req, res) => {
   const { game } = req.params
   getDocs(collection(db, 'games')).then(snapshot => {
     snapshot.docs.forEach(document => {
-      if (game === 'memory' && document.id === 'memory') res.json(document.data())
-      if (game === 'reaction-time' && document.id === 'reaction-time') res.json(document.data())
+      if (document.id === game) res.json(document.data())
     });
   }).catch(error => {
     console.error(error)

@@ -85,18 +85,24 @@ const Memory = () => {
     }
   }, [rightClick, setAllowClicks, changeLevel, level])
 
+  // GET DATA FOR CHART
+  useEffect(() => {
+    getScore('memory', setChartData)
+  }, [])
 
+  // chart data
   const data = {
-    labels: Object.keys(chartData),
+    labels: Object.keys(chartData ? chartData : []),
     datasets: [{
-      data: Object.values(chartData),
+      data: Object.values(chartData ? chartData : []),
       backgroundColor: 'white',
-      borderColor: 'black',
-      pointBorderColor: 'black',
-      tension: .4
+      borderColor: '#2573C1',
+      pointBorderColor: '#2573C1',
+      tension: .4,
     }]
   }
 
+  // chart options
   const chartOptions = {
     plugins: {
       legend: true,
@@ -105,10 +111,6 @@ const Memory = () => {
       y: { min: 0, max: 30 }
     }
   }
-
-  useEffect(() => {
-    getScore('memory', setChartData)
-  }, [])
 
   return (
     <>
@@ -163,7 +165,7 @@ const Memory = () => {
 
       {/* BOTTOM SECTION */}
       <section className="container">
-        <div id='statistics' className="card-container">
+        <div id='statistics' className="card-container grid-2">
           <div className='card'>
             <div className="chart-container">
               <h1>Statistics</h1>

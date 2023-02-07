@@ -22,7 +22,7 @@ const Home = () => {
         <button onClick={handleClick}>Get Started</button>
       </div>
       <div ref={gamesSection} className="container">
-        <div className="card-container">
+        <div className="card-container grid-2">
           <Link to='/memory'>
             <div className="card link center">
               <div className='squares-icon'>
