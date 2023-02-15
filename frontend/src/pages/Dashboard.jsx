@@ -25,6 +25,9 @@ const Dashboard = () => {
         <div className="card">
           <h1>Dashboard</h1>
         </div>
+        <div className="card grid-wide">
+          Feedback
+        </div>
       </div>
     </div>
   )

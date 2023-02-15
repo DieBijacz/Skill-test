@@ -90,7 +90,7 @@ const ReactionTime = () => {
   return (
     <>
       {/* GAME */}
-      <div id='reaction-time' className={`background ${color}`} onMouseDown={handleStartClick}>
+      <div id='reaction-time' className={`background ${color}`} onMouseDown={() => handleStartClick()}>
 
         {/* BLUE */}
         {color === 'blue' && <>
