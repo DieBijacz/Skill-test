@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBullseye } from '@fortawesome/free-solid-svg-icons'
 
 const Aim = () => {
+  const targetSizePixels = 80;
+  const numberOfTargets = 5
+
   const [runGame, setRunGame] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
-  const [targetsLeft, setTargetsLeft] = useState(10)
+  const [targetsLeft, setTargetsLeft] = useState(numberOfTargets)
+  const [targetCoords, setTargetCoords] = useState([-100, -100])
+  const board = useRef()
 
   const startGame = () => {
     setRunGame(true)
@@ -13,6 +18,8 @@ const Aim = () => {
   }
 
   const handleClick = () => {
+    // coords for new target
+
     // target clicks
     targetsLeft > 1 ? setTargetsLeft(left => left -= 1) : endGame()
 
@@ -20,23 +27,37 @@ const Aim = () => {
   }
 
   const createTarget = () => {
-    console.log('create targer')
+    console.log('create target')
+    const boardWith = board.current.offsetWidth
+    const boardHeight = board.current.offsetHeight
+
+    const newTargetX = Math.floor(Math.random() * (boardWith - targetSizePixels))
+    const newTargetY = Math.floor(Math.random() * (boardHeight - targetSizePixels))
+    setTargetCoords([newTargetX, newTargetY])
   }
 
   const endGame = () => {
-    console.log('game over')
+    const currentTime = Date.now()
+    console.log('game over. time:', currentTime - startTime, 'avarage:', (currentTime - startTime) / numberOfTargets)
+    setRunGame(false)
+    setStartTime(undefined)
+    setTargetCoords([-100, -100])
+    setTargetsLeft(numberOfTargets)
   }
 
   useEffect(() => {
-    if (runGame) createTarget()
+    if (runGame && targetsLeft != 0) createTarget()
   }, [targetsLeft, runGame])
 
   return (
     <div>
       {runGame ?
-        <div id='aim-trainer-game' className={`background blue`} onClick={() => handleClick()}>
-          <div className="board container">
-            {targetsLeft}
+        <div id='aim-trainer-game' className={`background blue`}>
+          <div className="board container" ref={board}>
+            <div className='target' style={{ left: targetCoords[0], top: targetCoords[1] }}>
+              <FontAwesomeIcon icon={faBullseye} onClick={() => handleClick()} style={{ fontSize: `${targetSizePixels}px` }} />
+            </div>
+            <div className="remaining">Remaining: {targetsLeft}</div>
           </div>
         </div>
         :
@@ -57,8 +78,11 @@ const Aim = () => {
           </div>
           <div className='card'>
             <h1>About the test</h1>
-            <p>This is a simple tool to measure your reaction time.</p>
-            <p>The average (median) reaction time is 273 milliseconds, according to the data collected on original website.</p>
+            <p>Click the targets as quickly and accurately as you can.</p>
+            <p>This tests reflexes and hand-eye coordination.</p>
+            <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
+            <p>Scores in this test are slower than the simple reaction time test, because you must react and then move the cursor.</p>
+            <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
           </div>
         </div>
       </section>

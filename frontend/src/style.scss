@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-$custom-white: rgb(250, 250, 250);
+$custom-white: rgba(250, 250, 250, 0.6);
 $light-grey: rgb(240, 240, 240);
 $dark-grey: rgb(54, 54, 54);
 $light-blue: #6faee2;
@@ -287,8 +287,30 @@ p {
 
 #aim-trainer-game {
   .board {
-    border: 1px solid white;
+    position: relative;
     height: 100%;
+    overflow: hidden;
+
+    .target {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 50%;
+
+      svg {
+        cursor: pointer;
+      }
+    }
+
+    .remaining {
+      width: 100%;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: .5rem;
+      color: $custom-white;
+    }
   }
 }
 
