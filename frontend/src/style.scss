@@ -61,12 +61,10 @@ a {
   flex-direction: column;
 }
 
-#navbar {
-  display: grid;
-  height: 3rem;
-  place-items: center;
-  font-size: 1.2rem;
-  font-weight: 400;
+.spaced {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .flex-1 {
@@ -108,19 +106,38 @@ a {
   }
 }
 
-button {
+.btn {
+  position: relative;
   border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.btn-gold {
+  margin: 1.5rem;
+  transition: .2s;
   padding: 1rem 2rem;
   background-color: $gold;
   font-size: 1.2rem;
   font-weight: bold;
   border-radius: 5px;
-  cursor: pointer;
-  margin: 1.5rem;
-  transition: .2s;
 
   &:hover {
     background-color: $light-gold;
+  }
+}
+
+#reset-data-btn {
+
+  &:hover::after {
+    content: "Just for your testing. Resets data in DB";
+    width: 150px;
+    background-color: #f3f3f3;
+    padding: 5px;
+    border: 1px solid black;
+    position: absolute;
+    border-radius: 5px;
+    text-align: center;
   }
 }
 
@@ -212,6 +229,14 @@ p {
 }
 
 // ========================== IDS ==========================
+
+#navbar {
+  display: grid;
+  height: 3rem;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
 
 #memory-game {
   user-select: none;

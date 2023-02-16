@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
-import { getScore, saveScore } from '../components/utilities'
+import { getScore, resetScore, saveScore } from '../components/utilities'
 import { Chart as ChartJS, LineElement, CategoryScale, PointElement, LinearScale } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
@@ -18,6 +18,8 @@ const ReactionTime = () => {
   const [startTime, setStartTime] = useState(undefined)
   const [timeoutId, setTimeoutId] = useState()
   const [chartData, setChartData] = useState()
+  const [dataSaved, setDataSaved] = useState(false)
+  const [scoreReset, setScoreReset] = useState(false)
 
   const DELAY = Math.floor(Math.random() * 5000) + 1000
 
@@ -52,17 +54,17 @@ const ReactionTime = () => {
 
   // SAVE SCORE IN DB
   useEffect(() => {
-    if (time < 500) saveScore('reaction-time', time)
+    if (time < 500) {
+      saveScore('reaction-time', time, setDataSaved)
+    }
   }, [time])
-
-  useEffect(() => {
-    if (chartData) console.log('DATA:', chartData)
-  }, [chartData])
 
   // GET DATA FOR CHART
   useEffect(() => {
     getScore('reaction-time', setChartData)
-  }, [])
+    setDataSaved(false)
+    setScoreReset(false)
+  }, [dataSaved, scoreReset])
 
   //chart data
   const data = {
@@ -130,7 +132,10 @@ const ReactionTime = () => {
         <div id='statistics' className="card-container grid-2">
           <div className='card'>
             <div className="chart-container">
-              <h1>Statistics</h1>
+              <div className='spaced'>
+                <h1>Statistics</h1>
+                <button className='btn' id='reset-data-btn' onClick={() => resetScore('reaction-time', setScoreReset)}>reset</button>
+              </div>
               <Line data={data} options={chartOptions} />
             </div>
           </div>

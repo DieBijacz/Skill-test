@@ -10,12 +10,12 @@ export const shuffle = (array) => {
 };
 
 // POST SCORE TO DB
-export const saveScore = async (game, score) => {
+export const saveScore = async (game, score, saved) => {
   try {
     const config = { headers: { 'Content-Type': 'application/json' } }
     await axios
       .post(`http://localhost:5000/score/${game}`, { score }, config)
-      .then(res => console.log({ 'Data from server:': res.data, 'Status:': res.status }))
+      .then(res => res.status === 200 && saved(true))
   } catch (error) {
     console.error(error)
   }
@@ -32,3 +32,14 @@ export const getScore = async (game, setData) => {
     console.error(error)
   }
 };
+
+export const resetScore = async (game, reset) => {
+  try {
+    const config = { headers: { 'Content-Type': 'application/json' } }
+    await axios
+      .post(`http://localhost:5000/score/reset/${game}`, config)
+      .then(res => res.status === 200 && reset(true))
+  } catch (error) {
+    console.error(error)
+  }
+}

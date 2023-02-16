@@ -46,7 +46,7 @@ const Aim = () => {
   }
 
   useEffect(() => {
-    if (runGame && targetsLeft != 0) createTarget()
+    if (runGame && targetsLeft !== 0) createTarget()
   }, [targetsLeft, runGame])
 
   return (
