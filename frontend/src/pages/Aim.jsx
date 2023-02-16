@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBullseye } from '@fortawesome/free-solid-svg-icons'
+import { getScore, resetScore, saveScore } from '../components/utilities';
+import { Line } from 'react-chartjs-2';
 
 const Aim = () => {
   const targetSizePixels = 80;
@@ -8,8 +10,12 @@ const Aim = () => {
 
   const [runGame, setRunGame] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
+  const [score, setScore] = useState()
   const [targetsLeft, setTargetsLeft] = useState(numberOfTargets)
   const [targetCoords, setTargetCoords] = useState([-targetSizePixels, -targetSizePixels])
+  const [chartData, setChartData] = useState()
+  const [dataSaved, setDataSaved] = useState(false)
+  const [scoreReset, setScoreReset] = useState(false)
   const board = useRef()
 
   const startGame = () => {
@@ -27,7 +33,6 @@ const Aim = () => {
   }
 
   const createTarget = () => {
-    console.log('create target')
     const boardWith = board.current.offsetWidth
     const boardHeight = board.current.offsetHeight
 
@@ -38,16 +43,54 @@ const Aim = () => {
 
   const endGame = () => {
     const currentTime = Date.now()
-    console.log('game over. time:', currentTime - startTime, 'avarage:', (currentTime - startTime) / numberOfTargets)
+    setScore((currentTime - startTime) / numberOfTargets)
     setRunGame(false)
     setStartTime(undefined)
     setTargetCoords([-targetSizePixels, -targetSizePixels])
     setTargetsLeft(numberOfTargets)
   }
 
+  // START GAME
   useEffect(() => {
     if (runGame && targetsLeft !== 0) createTarget()
   }, [targetsLeft, runGame])
+
+  // SAVE SCORE IN DB
+  useEffect(() => {
+    if (score < 1000) {
+      saveScore('aim-trainer', score, setDataSaved)
+    }
+  }, [score])
+
+  // GET DATA FOR CHART
+  useEffect(() => {
+    getScore('aim-trainer', setChartData)
+    setDataSaved(false)
+    setScoreReset(false)
+  }, [dataSaved, scoreReset])
+
+  //chart data
+  const data = {
+    labels: Object.keys(chartData ? chartData : []),
+    datasets: [{
+      data: Object.values(chartData ? chartData : []),
+      backgroundColor: 'white',
+      borderColor: '#2573C1',
+      pointBorderColor: '#2573C1',
+      tension: .4,
+    }]
+  }
+
+  // chart options
+  const chartOptions = {
+    plugins: {
+      legend: true
+    },
+    scales: {
+      y: { min: 0, max: chartData ? Math.max(...Object.values(chartData)) + 10 : 100 },
+      x: { min: 0, max: 1000 }
+    }
+  }
 
   return (
     <div>
@@ -72,8 +115,11 @@ const Aim = () => {
         <div id='statistics' className="card-container grid-2">
           <div className='card'>
             <div className="chart-container">
-              <h1>Statistics</h1>
-              {/* <Line data={data} options={chartOptions} /> */}
+              <div className='spaced'>
+                <h1>Statistics</h1>
+                <button className='btn' id='reset-data-btn' onClick={() => resetScore('aim-trainer', setScoreReset)}>reset</button>
+              </div>
+              <Line data={data} options={chartOptions} />
             </div>
           </div>
           <div className='card'>

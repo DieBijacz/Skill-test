@@ -14,6 +14,7 @@ export const saveScore = async (req, res) => {
     snapshot.docs.forEach(document => {
       if (game === 'memory' && document.id === 'memory') saveMemory(document)
       if (game === 'reaction-time' && document.id === 'reaction-time') saveReactionTime(document)
+      if (game === 'aim-trainer' && document.id === 'aim-trainer') saveAimTrainer(document)
     })
   }).catch(error => {
     console.error(error)
@@ -46,6 +47,22 @@ export const saveScore = async (req, res) => {
       .then(res.json('Reaction Time score saved successfully'))
       .catch(error => console.log('Error:', error))
   }
+  // AIM TRAINER
+  const saveAimTrainer = (document) => {
+    // format score
+    const decimal = (score / 50).toFixed(1).split('.')[1] <= 5 ? 0 : 1 // this calculates if number need to be rounded up or down
+    const base = (score / 50).toFixed(0)
+    const formatedScore = (+base + +decimal) * 50
+
+    // update score
+    const updatedScore = document.data()[formatedScore] + 1
+
+    //update in DB
+    const docRef = doc(db, collectionName, game)
+    updateDoc(docRef, { [formatedScore]: updatedScore })
+      .then(res.json('Reaction Time score saved successfully'))
+      .catch(error => console.log('Error:', error))
+  }
 }
 
 // GET DATA
@@ -65,9 +82,17 @@ export const getScore = async (req, res) => {
 export const resetScore = async (req, res) => {
   const { game } = req.params
   console.log('reset:', game)
+  let temple
 
-  const temple = {
-    0: 0, 100: 0, 125: 0, 150: 0, 175: 0, 200: 0, 25: 0, 225: 0, 250: 0, 275: 0, 300: 0, 325: 0, 350: 0, 375: 0, 400: 0, 425: 0, 450: 0, 475: 0, 50: 0, 75: 0
+  if (game === 'reaction-time') {
+    temple = {
+      0: 0, 100: 0, 125: 0, 150: 0, 175: 0, 200: 0, 25: 0, 225: 0, 250: 0, 275: 0, 300: 0, 325: 0, 350: 0, 375: 0, 400: 0, 425: 0, 450: 0, 475: 0, 50: 0, 75: 0
+    }
+  }
+  if (game === 'aim-trainer') {
+    temple = {
+      0: 0, 100: 0, 150: 0, 200: 0, 250: 0, 300: 0, 350: 0, 400: 0, 450: 0, 50: 0, 500: 0, 550: 0, 600: 0, 650: 0, 700: 0, 750: 0, 800: 0, 850: 0, 900: 0, 950: 0
+    }
   }
 
   const docRef = doc(db, collectionName, game)
