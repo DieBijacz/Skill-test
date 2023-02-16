@@ -286,6 +286,14 @@ p {
 }
 
 #aim-trainer-game {
+  .remaining {
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: .5rem;
+    color: $custom-white;
+  }
+
   .board {
     position: relative;
     height: 100%;
@@ -304,13 +312,6 @@ p {
       }
     }
 
-    .remaining {
-      width: 100%;
-      font-size: 1.5rem;
-      text-align: center;
-      margin-top: .5rem;
-      color: $custom-white;
-    }
   }
 }
 

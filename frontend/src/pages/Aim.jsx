@@ -9,7 +9,7 @@ const Aim = () => {
   const [runGame, setRunGame] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
   const [targetsLeft, setTargetsLeft] = useState(numberOfTargets)
-  const [targetCoords, setTargetCoords] = useState([-100, -100])
+  const [targetCoords, setTargetCoords] = useState([-targetSizePixels, -targetSizePixels])
   const board = useRef()
 
   const startGame = () => {
@@ -41,7 +41,7 @@ const Aim = () => {
     console.log('game over. time:', currentTime - startTime, 'avarage:', (currentTime - startTime) / numberOfTargets)
     setRunGame(false)
     setStartTime(undefined)
-    setTargetCoords([-100, -100])
+    setTargetCoords([-targetSizePixels, -targetSizePixels])
     setTargetsLeft(numberOfTargets)
   }
 
@@ -53,11 +53,11 @@ const Aim = () => {
     <div>
       {runGame ?
         <div id='aim-trainer-game' className={`background blue`}>
+          <div className="remaining">Remaining: {targetsLeft}</div>
           <div className="board container" ref={board}>
             <div className='target' style={{ left: targetCoords[0], top: targetCoords[1] }}>
               <FontAwesomeIcon icon={faBullseye} onClick={() => handleClick()} style={{ fontSize: `${targetSizePixels}px` }} />
             </div>
-            <div className="remaining">Remaining: {targetsLeft}</div>
           </div>
         </div>
         :

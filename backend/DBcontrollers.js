@@ -10,8 +10,8 @@ export const saveScore = async (req, res) => {
   // as games have diffrent data format
   getDocs(collection(db, collectionName)).then(snapshot => {
     snapshot.docs.forEach(document => {
-      if (game === 'memory' && document.id === 'memory') saveMemory(document)
-      if (game === 'reaction-time' && document.id === 'reaction-time') saveReactionTime(document)
+      // if (game === 'memory' && document.id === 'memory') saveMemory(document)
+      if (document.id === game) saveReactionTime(document)
     })
   }).catch(error => {
     console.error(error)
@@ -30,10 +30,17 @@ export const saveScore = async (req, res) => {
 
   // REACTION TIME GAME
   const saveReactionTime = (document) => {
-    const dataFromDB = document.data().all
-    const updatedData = [...dataFromDB, score]
+    // format score
+    const decimal = (score / 25).toFixed(1).split('.')[1] < 9 ? 0 : 1 // this calculates if number need to be rounded up or down
+    const base = (score / 25).toFixed(0)
+    const formatedScore = (+base + +decimal) * 25
+
+    // update score
+    const updatedScore = document.data()[formatedScore] + 1
+
+    //update in DB
     const docRef = doc(db, collectionName, game)
-    updateDoc(docRef, { all: [...updatedData] })
+    updateDoc(docRef, { [formatedScore]: updatedScore })
       .then(res.json('Reaction Time score saved successfully'))
       .catch(error => console.log('Error:', error))
   }

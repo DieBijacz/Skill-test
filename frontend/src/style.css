@@ -357,6 +357,14 @@ p {
           user-select: none;
 }
 
+#aim-trainer-game .remaining {
+  width: 100%;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: .5rem;
+  color: rgba(250, 250, 250, 0.6);
+}
+
 #aim-trainer-game .board {
   position: relative;
   height: 100%;
@@ -380,14 +388,6 @@ p {
 
 #aim-trainer-game .board .target svg {
   cursor: pointer;
-}
-
-#aim-trainer-game .board .remaining {
-  width: 100%;
-  font-size: 1.5rem;
-  text-align: center;
-  margin-top: .5rem;
-  color: rgba(250, 250, 250, 0.6);
 }
 
 #dashboard .grid {
